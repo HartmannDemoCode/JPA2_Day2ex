@@ -1,4 +1,4 @@
-package dk.ek.persistence;
+package dk.ek.persistence.model;
 
 public enum CourseName {
     SPORTS,

@@ -1,19 +1,17 @@
-package dk.ek.persistence;
+package dk.ek.persistence.model;
 
+import dk.ek.persistence.interfaces.IEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "teacher")
-public class Teacher implements IEntity{
+public class Teacher implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

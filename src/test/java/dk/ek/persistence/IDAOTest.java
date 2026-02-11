@@ -1,5 +1,14 @@
 package dk.ek.persistence;
 
+import dk.ek.persistence.config.HibernateConfig;
+import dk.ek.persistence.daos.CourseDAO;
+import dk.ek.persistence.daos.StudentDAO;
+import dk.ek.persistence.daos.TeatherDAO;
+import dk.ek.persistence.interfaces.IDAO;
+import dk.ek.persistence.interfaces.IEntity;
+import dk.ek.persistence.model.Course;
+import dk.ek.persistence.model.Student;
+import dk.ek.persistence.model.Teacher;
 import dk.ek.utils.Populator;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.*;
@@ -46,115 +55,34 @@ class IDAOTest {
     void getStudentsWithCoursesAndTeachers() {
         Set<Student> students = studentDAO.get();
         students.forEach(s -> {
-            System.out.println(s.getName() + " is enrolled in course: " + s.getCourse().getCourseName()
-                    + " taught by: " + s.getCourse().getTeacher().getName());
+            System.out.println(s.getName() + " is enrolled in course: " + s.getEnrollments().stream().map(enroll->enroll.getCourse().getCourseName().name()).reduce((c1,c2)->c1+", "+c2).orElse("No courses"));
         });
         int actual = students.size();
         int expected = 6; // Based on the Populator data
         assertEquals(expected, actual);
     }
-//    @Test
-//    void get() {
-//        Set<Student> eployees = employeeDAO.get();
-//        eployees.forEach(e -> System.out.println(e.getName() + " is deployed in department: " + e.getDepartment().getName()));
-//        int actual = eployees.size();
-//        int expected = 12;
-//        assertEquals(expected, actual);
-//    }
-//
-//    @Test
-//    void getByID() {
-//    }
-//
-//    @Test
-//    void update() {
-//        Student employeeToUpdate = employees.get(0);
-//        employeeToUpdate.setName("Updated Student Name");
-//        Student updatedEmployee = employeeDAO.update(employeeToUpdate);
-//        assertEquals("Updated Student Name", updatedEmployee.getName());
-//    }
-//
-//    @Test
-//    void delete() {
-//    }
-//
-//    @Test
-//    void generalUpdateWithCheck_updatesScalarsOnly() {
-//        // Arrange: create a detached "patch" employee (only ID + new name/email)
-//        Student existing = employees.get(0);
-//
-//        Student patch = new Student();
-//        patch.setId(existing.getId());
-//        patch.setName("Patched Name");
-//        patch.setEmail("patched@mail.com");
-//
-//        // Act
-//        Student updated = employeeDAO.updateWithCheck(patch);
-//
-//        // Assert
-//        assertEquals("Patched Name", updated.getName());
-//        assertEquals("patched@mail.com", updated.getEmail());
-//
-//        // department should remain unchanged
-//        assertNotNull(updated.getDepartment());
-//        assertEquals(existing.getDepartment().getId(), updated.getDepartment().getId());
-//    }
-//
-//    @Test
-//    void generalUpdateWithCheck_movesEmployeeToExistingDepartment_withoutCascade() {
-//        // Arrange
-//        Student existing = employees.get(0);
-//        Long empId = existing.getId();
-//
-//        // pick a different department than the employee currently has
-//        Department currentDept = existing.getDepartment();
-//        Department targetDept = departmentDAO.get().stream()
-//                .filter(d -> !d.getId().equals(currentDept.getId()))
-//                .findFirst()
-//                .orElseThrow();
-//
-//        Student patch = new Student();
-//        patch.setId(empId);
-//
-//        Department deptRef = new Department();
-//        deptRef.setId(targetDept.getId());  // only ID is provided (detached reference)
-//        patch.setDepartment(deptRef);
-//
-//        // Act
-//        Student updated = employeeDAO.updateWithCheck(patch);
-//
-//        // Assert
-//        assertNotNull(updated.getDepartment());
-//        assertEquals(targetDept.getId(), updated.getDepartment().getId());
-//    }
-//
-//
-//    @Test
-//    void generalUpdateWithCheck_persistsNewDepartment_whenNoId_withoutCascade() {
-//        // Arrange
-//        Student existing = employees.get(0);
-//
-//        Student patch = new Student();
-//        patch.setId(existing.getId());
-//
-//        Department newDept = new Department();
-//        newDept.setName("Brand New Department"); // no id => should be persisted explicitly
-//        patch.setDepartment(newDept);
-//
-//        int deptCountBefore = departmentDAO.get().size();
-//
-//        // Act
-//        Student updated = employeeDAO.updateWithCheck(patch);
-//
-//        // Assert: employee now points to a department that has an id (was persisted)
-//        assertNotNull(updated.getDepartment());
-//        assertNotNull(updated.getDepartment().getId(), "New department should have been persisted explicitly");
-//
-//        int deptCountAfter = departmentDAO.get().size();
-//        assertEquals(deptCountBefore + 1, deptCountAfter);
-//
-//        // Verify name was stored
-//        Department fromDb = departmentDAO.getByID(updated.getDepartment().getId());
-//        assertEquals("Brand New Department", fromDb.getName());
-//    }
+    @Test
+    void get() {
+        Set<Student> students = studentDAO.get();
+        int actual = students.size();
+        int expected = 6;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getByID() {
+    }
+
+    @Test
+    void update() {
+        Student employeeToUpdate =(Student) entities.get("student1") ;
+        employeeToUpdate.setName("Updated Student Name");
+        Student updated = studentDAO.update(employeeToUpdate);
+        assertEquals("Updated Student Name", updated.getName());
+    }
+
+    @Test
+    void delete() {
+    }
+
 }

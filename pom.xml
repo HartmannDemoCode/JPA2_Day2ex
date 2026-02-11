@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dk.ek</groupId>
-    <artifactId>JPA2_Codelab</artifactId>
+    <artifactId>JPA2_Day2ex</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

@@ -1,5 +1,7 @@
-package dk.ek.persistence;
+package dk.ek.persistence.daos;
 
+import dk.ek.persistence.interfaces.IDAO;
+import dk.ek.persistence.model.Course;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;

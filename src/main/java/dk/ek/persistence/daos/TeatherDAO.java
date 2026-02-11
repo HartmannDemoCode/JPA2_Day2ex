@@ -1,5 +1,7 @@
-package dk.ek.persistence;
+package dk.ek.persistence.daos;
 
+import dk.ek.persistence.interfaces.IDAO;
+import dk.ek.persistence.model.Teacher;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
@@ -7,13 +9,14 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StudentDAO implements IDAO<Student> {
+public class TeatherDAO implements IDAO<Teacher> {
     EntityManagerFactory emf;
-    public StudentDAO(EntityManagerFactory _emf){
+    public TeatherDAO(EntityManagerFactory _emf){
         this.emf = _emf;
     }
+
     @Override
-    public Student create(Student e) {
+    public Teacher create(Teacher e) {
         try(EntityManager em = emf.createEntityManager()){
             em.getTransaction().begin();
             em.persist(e);
@@ -23,45 +26,45 @@ public class StudentDAO implements IDAO<Student> {
     }
 
     @Override
-    public Set<Student> get() {
+    public Set<Teacher> get() {
         try(EntityManager em = emf.createEntityManager()){
-            return new HashSet(em.createQuery("SELECT e FROM Student e").getResultList());
+            return new HashSet(em.createQuery("SELECT e FROM Teacher e").getResultList());
         }
     }
 
     @Override
-    public Student getByID(Long id) {
+    public Teacher getByID(Long id) {
         try(EntityManager em = emf.createEntityManager()){
-            Student student = em.find(Student.class, id);
-            if(student == null)
+            Teacher teacher = em.find(Teacher.class, id);
+            if(teacher == null)
                 throw new EntityNotFoundException("No entity found with id: "+id);
-            return student;
+            return teacher;
         }
     }
 
     @Override
-    public Student update(Student e) {
+    public Teacher update(Teacher e) {
         try(EntityManager em = emf.createEntityManager()){
-            Student foundstudent = em.find(Student.class, e.getId());
-            if(foundstudent == null)
+            Teacher teacher = em.find(Teacher.class, e.getId());
+            if(teacher == null)
                 throw new EntityNotFoundException("No entity found with id: "+e.getId());
             em.getTransaction().begin();
-            Student student = em.merge(e);
+            teacher = em.merge(e);
             em.getTransaction().commit();
-            return student;
+            return teacher;
         }
     }
 
     @Override
-    public Long delete(Student e) {
+    public Long delete(Teacher e) {
         try(EntityManager em = emf.createEntityManager()){
-            Student student = em.find(Student.class, e.getId());
-            if(student == null)
+            Teacher teacher = em.find(Teacher.class, e.getId());
+            if(teacher == null)
                 throw new EntityNotFoundException("No entity found with id: "+e.getId());
             em.getTransaction().begin();
-            em.remove(student);
+            em.remove(teacher);
             em.getTransaction().commit();
-            return student.getId();
+            return teacher.getId();
         }
     }
 }

@@ -1,5 +1,9 @@
-package dk.ek.persistence;
+package dk.ek.persistence.config;
 
+import dk.ek.persistence.model.Course;
+import dk.ek.persistence.model.Enrollment;
+import dk.ek.persistence.model.Student;
+import dk.ek.persistence.model.Teacher;
 import dk.ek.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
@@ -56,6 +60,7 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Student.class);
         configuration.addAnnotatedClass(Course.class);
         configuration.addAnnotatedClass(Teacher.class);
+        configuration.addAnnotatedClass(Enrollment.class);
 
     }
 

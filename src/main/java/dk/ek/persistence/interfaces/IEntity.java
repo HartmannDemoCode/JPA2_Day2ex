@@ -1,4 +1,4 @@
-package dk.ek.persistence;
+package dk.ek.persistence.interfaces;
 
 public interface IEntity {
         Long getId();
