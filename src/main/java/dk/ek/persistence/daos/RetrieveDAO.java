@@ -1,5 +1,6 @@
 package dk.ek.persistence.daos;
 
+import dk.ek.dtos.ClassWithTeacherDTO;
 import dk.ek.persistence.interfaces.IDAO;
 import dk.ek.persistence.interfaces.IRetrieveDAO;
 import dk.ek.persistence.model.*;
@@ -16,6 +17,14 @@ public class RetrieveDAO implements IRetrieveDAO {
 
     public RetrieveDAO(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    @Override
+    public Set<ClassWithTeacherDTO> getAllClassesWithTeachers() {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<ClassWithTeacherDTO> query = em.createQuery("SELECT new dk.ek.dtos.ClassWithTeacherDTO(c.id, c.courseName, t.name, t.email) FROM Course c JOIN c.teacher t", ClassWithTeacherDTO.class);
+            return new HashSet<>(query.getResultList());
+        }
     }
 
     @Override

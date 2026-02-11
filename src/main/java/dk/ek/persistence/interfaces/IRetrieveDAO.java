@@ -1,5 +1,6 @@
 package dk.ek.persistence.interfaces;
 
+import dk.ek.dtos.ClassWithTeacherDTO;
 import dk.ek.persistence.model.Course;
 import dk.ek.persistence.model.EnrollmentStatus;
 import dk.ek.persistence.model.Student;
@@ -10,6 +11,9 @@ import java.util.Set;
 
 public interface IRetrieveDAO {
 
+    // ------------------------- Show use of new operator in JPQL ------------------------------
+    Set<ClassWithTeacherDTO> getAllClassesWithTeachers();
+    // ------------------------------------------------------------
     /**
      * Return all courses taught by a specific teacher.
      */
