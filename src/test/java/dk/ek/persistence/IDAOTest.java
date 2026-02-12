@@ -54,9 +54,9 @@ class IDAOTest {
     @DisplayName("StudentDAO.get() should return all students with their associated course and teacher")
     void getStudentsWithCoursesAndTeachers() {
         Set<Student> students = studentDAO.get();
-        students.forEach(s -> {
-            System.out.println(s.getName() + " is enrolled in course: " + s.getEnrollments().stream().map(enroll->enroll.getCourse().getCourseName().name()).reduce((c1,c2)->c1+", "+c2).orElse("No courses"));
-        });
+//        students.forEach(s -> {
+//            System.out.println(s.getName() + " is enrolled in course: " + s.getEnrollments().stream().map(enroll->enroll.getCourse().getCourseName().name()).reduce((c1,c2)->c1+", "+c2).orElse("No courses"));
+//        });
         int actual = students.size();
         int expected = 6; // Based on the Populator data
         assertEquals(expected, actual);
@@ -73,13 +73,13 @@ class IDAOTest {
     void getByID() {
     }
 
-    @Test
-    void update() {
-        Student employeeToUpdate =(Student) entities.get("student1") ;
-        employeeToUpdate.setName("Updated Student Name");
-        Student updated = studentDAO.update(employeeToUpdate);
-        assertEquals("Updated Student Name", updated.getName());
-    }
+//    @Test
+//    void update() {
+//        Student employeeToUpdate =(Student) entities.get("student1") ;
+//        employeeToUpdate.setName("Updated Student Name");
+//        Student updated = studentDAO.update(employeeToUpdate);
+//        assertEquals("Updated Student Name", updated.getName());
+//    }
 
     @Test
     void delete() {

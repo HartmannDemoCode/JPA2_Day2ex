@@ -28,6 +28,17 @@ public class RetrieveDAO implements IRetrieveDAO {
     }
 
     @Override
+    public Set<Teacher> getAllTeachersForCourse(String courseName) {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<Teacher> query = em.createQuery("SELECT t FROM Course c JOIN c.teacher t WHERE c.courseName = :courseName", Teacher.class);
+            CourseName enumValue = CourseName.valueOf(courseName);
+            query.setParameter("courseName", enumValue);
+            return new HashSet(query.getResultList());
+        }
+    }
+
+
+    @Override
     public Set<Student> getAllStudentsInCourse(Long courseId) {
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<Student> query = em.createQuery("SELECT s FROM Student s JOIN s.enrollments e WHERE e.course.id = :courseId", Student.class);
@@ -45,6 +56,8 @@ public class RetrieveDAO implements IRetrieveDAO {
         }
     }
 
+
+
     @Override
     public Set<Student> getAllStudentsForTeacher(Long teacherId) {
         try (EntityManager em = emf.createEntityManager()) {
@@ -54,15 +67,6 @@ public class RetrieveDAO implements IRetrieveDAO {
         }
     }
 
-    @Override
-    public Set<Teacher> getAllTeachersForCourse(String courseName) {
-        try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Teacher> query = em.createQuery("SELECT t FROM Course c JOIN c.teacher t WHERE c.courseName = :courseName", Teacher.class);
-            CourseName enumValue = CourseName.valueOf(courseName);
-            query.setParameter("courseName", enumValue);
-            return new HashSet(query.getResultList());
-        }
-    }
 
     @Override
     public Set<Course> getAllCoursesForStudent(Long studentId) {
